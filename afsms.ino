@@ -1,13 +1,13 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-// Detection GPIO pins
-#define TEMPERATURE 7
-#define HUMIDITY 6
-#define RAIN 5
-#define WIND 4
+// Detection LED pins
+#define TEMPERATURE_LED 7
+#define HUMIDITY_LED 6
+#define RAIN_LED 5
+#define WIND_LED 4
 
-// Degree of seriousness GPIO pins
+// Degree of seriousness LED pins
 #define NORMAL 15
 #define SEVERE 16
 #define CRITICAL 17
@@ -20,7 +20,7 @@ TaskHandle_t Rain_Handle = NULL;
 TaskHandle_t Wind_Handle = NULL;
 
 // Degree of seriousness handles
-// TODO:
+TaskHandle_t Degree_Handle = NULL;
 
 // Detection tasks prototypes
 void Temperature_Detector(void *pvParameter);
@@ -29,7 +29,13 @@ void Rain_Detector(void *pvParameter);
 void Wind_Detector(void *pvParameter);
 
 // Blinking LED tasks prototypes
-// TODO:
+void LED_Blink(void *pvParameter);
+
+// Create Queue Handle
+xQueueHandle_t myQueue = NULL;
+
+// Create Semaphore Handle
+// TODO:...
 
 void setup() {
   // put your setup code here, to run once:
@@ -37,6 +43,10 @@ void setup() {
   Serial.println("Advanced Fire Sensing and Mitigation System!");
 
   // Create tasks
+  // TODO:...
 }
+
+// Create Tasks Functions
+// TODO:...
 
 void loop() {}
