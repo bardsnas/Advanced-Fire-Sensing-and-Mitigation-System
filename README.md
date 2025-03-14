@@ -6,21 +6,21 @@ The Advanced Fire Sensing and Mitigation System (AFSMS) predicts fire risk and s
 # FreeRTOS:
 ## Task Notifications:
 ## Tradition approach to inter-task communication cons
-***Using a binary semaphore to signal a task: Uses more memory (stored in kernal data structures).
-***Using a queue to sned a small piece of data: Adds processing overhead, even for simple signals.
-***Using polling(chekcing conditions repeatedly): Wastes CPU time checking for events.
+* Using a binary semaphore to signal a task: Uses more memory (stored in kernal data structures).
+* Using a queue to sned a small piece of data: Adds processing overhead, even for simple signals.
+* Using polling(chekcing conditions repeatedly): Wastes CPU time checking for events.
 
 ## Software Timer:
-***Memory: No task stack required  
-***CPU: Runs only when needed  
-***Precision: More accurate timing  
-***Best use: Simple periodic actions like blinking LEDs to indicate critical level  
+* Memory: No task stack required
+* CPU: Runs only when needed  
+* Precision: More accurate timing  
+* Best use: Simple periodic actions like blinking LEDs to indicate critical level  
 
 ## Task(vTaskDelay())
-***Memory: Comsumes stack space  
-***CPU: Blocks task execution  
-***Precision: Less precise than Software Timer  
-***Best use: Complex tasks like sensor readings display and FWI calculations  
+* Memory: Comsumes stack space  
+* CPU: Blocks task execution  
+* Precision: Less precise than Software Timer  
+* Best use: Complex tasks like sensor readings display and FWI calculations  
 
 
 
