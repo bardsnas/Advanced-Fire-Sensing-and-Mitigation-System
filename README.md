@@ -22,5 +22,23 @@ The Advanced Fire Sensing and Mitigation System (AFSMS) predicts fire risk and s
 * Precision: Less precise than Software Timer  
 * Best use: Complex tasks like sensor readings display and FWI calculations  
 
+# Fire-Weather Index (FWI)
+## Fine Fuel Moisture Code (FFMC)
+$FFMC_{t} = \frac{59.5 * (250 - M)}{147.2 + M}$
+
+where:
+
+-   Moisture content: $M = \frac{147.2 * (101 - RH)}{59.5 + T}$
+
+-   $RH$ is relative humidity (%)
+
+-   $T$ is temperature (Celsius)
+
+-   If rain occurs, $FFMC$ is adjusted using an empirical formula.
+
+
+
+
+
 
 
