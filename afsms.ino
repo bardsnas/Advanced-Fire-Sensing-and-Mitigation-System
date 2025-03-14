@@ -1,6 +1,13 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
+// I2C communication libraries
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+// Temperature and humidity sensor library and initialization
+#include <Adafruit_AM2320.h>
+
 // Detection LED pins
 #define TEMPERATURE_LED 7
 #define HUMIDITY_LED 6
@@ -13,9 +20,14 @@
 #define CRITICAL 17
 #define EMERGENCY 18
 
+// I2C communcation: Initialize 16x2 LCD (I2C address: 0x27, 16 columns, 2 rows)
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+// Initialize AM2320 sensor
+Adafruit_AM2320 am2320 = Adafruit_AM2320();
+
 // Detection handles
-TaskHandle_t Temperature_Handle = NULL;
-TaskHandle_t Humidity_Handle = NULL;
+TaskHandle_t Temp_Humid_Handle = NULL;
 TaskHandle_t Rain_Handle = NULL;
 TaskHandle_t Wind_Handle = NULL;
 
@@ -23,30 +35,57 @@ TaskHandle_t Wind_Handle = NULL;
 TaskHandle_t Degree_Handle = NULL;
 
 // Detection tasks prototypes
-void Temperature_Detector(void *pvParameter);
-void Humidity_Detector(void *pvParameter);
-void Rain_Detector(void *pvParameter);
-void Wind_Detector(void *pvParameter);
+void Temp_Humid_Det(void *pvParameter);
+void Wind_Det(void *pvParameter);
+void Rain_Det(void *pvParameter);
 
 // Blinking LED tasks prototypes
 void LED_Blink(void *pvParameter);
 
-// Create Queue Handle
-xQueueHandle_t myQueue = NULL;
-
-// Create Semaphore Handle
-// TODO:...
+// Global variables
+int FWI = 0; // Fire Weather Index
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Serial.println("Advanced Fire Sensing and Mitigation System!");
 
+  // Initialize I2C communication
+  Wire.begin();
+    
+  // Start the LCD
+  lcd.init();
+  lcd.backlight(); // Turn on backlight
+
+  // Start the sensor
+  am2320.begin();
+
   // Create tasks
   // TODO:...
+  xTaskCreate(Temp_Humid_Det, "Temperture & Humidity", 1024, NULL, 1, &Temp_Humid_Handle);
+
 }
 
 // Create Tasks Functions
 // TODO:...
+// Temperature and Humidity sensing
+void Temp_Humid_Det(void *pvParameter) {
+  // Read temperature and humidity from AM2320
+  float temp = am2320.readTemperature();
+  float humid = am2320.readHumididy();
+
+  // Display temperature
+  lcd.setCursor(0, 0);
+  lcd.print("Temperature: ");
+  lcd.print(temp);
+  lcd.print(" C");
+
+  // Display humidity
+  lcd.setCursor(0, 1);
+  lcd.print("Humidity: ");
+  lcd.print(humid);
+  lcd.print(" %");
+
+}
 
 void loop() {}
