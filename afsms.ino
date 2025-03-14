@@ -9,8 +9,8 @@
 #include <Adafruit_AM2320.h>
 
 // Detection LED pins
-#define TEMP_LED 7
-#define HUMID_LED 6
+#define TEMP_LED 36
+#define HUMID_LED 38
 #define RAIN_LED 5
 #define WIND_LED 4
 
@@ -67,7 +67,7 @@ void setup() {
 
   // Create tasks
   // TODO:...
-  xTaskCreate(Temp_Humid_Det, "Temperture & Humidity", 1024, NULL, 1, &Temp_Humid_Handle);
+  xTaskCreate(Temp_Humid_Det, "Temperture & Humidity", 4096, NULL, 1, &Temp_Humid_Handle);
 
 }
 
@@ -75,16 +75,19 @@ void setup() {
 // TODO:...
 // Temperature and Humidity sensing
 void Temp_Humid_Det(void *pvParameter) {
-  // Read temperature and humidity from AM2320
-  float temp = am2320.readTemperature();
-  float humid = am2320.readHumididy();
+  while (1) {  // Infinite loop to keep the task running
+    float temp = am2320.readTemperature();
+    float humid = am2320.readHumidity();
 
-  int brightnessTemp = map(temp, -40, 80, 0, 255);
-  int brightnessHumid = map(temp, 0, 100, 0, 255);
+    int brightnessTemp = map(temp, -40, 80, 0, 255);
+    int brightnessHumid = map(humid, 0, 100, 0, 255);  // Fix: Should use 'humid' instead of 'temp'
 
+    analogWrite(TEMP_LED, brightnessTemp);
+    analogWrite(HUMID_LED, brightnessHumid);
 
-  analogWrite(TEMP_LED, brightnessTemp);
-  analogWrite(HUMID_LED, brightnessHumid);
+    vTaskDelay(pdMS_TO_TICKS(1000));  // Delay to prevent CPU overload
+  }
 }
+
 
 void loop() {}
