@@ -9,8 +9,8 @@
 #include <Adafruit_AM2320.h>
 
 // Detection LED pins
-#define TEMPERATURE_LED 7
-#define HUMIDITY_LED 6
+#define TEMP_LED 7
+#define HUMID_LED 6
 #define RAIN_LED 5
 #define WIND_LED 4
 
@@ -42,13 +42,18 @@ void Rain_Det(void *pvParameter);
 // Blinking LED tasks prototypes
 void LED_Blink(void *pvParameter);
 
-// Global variables
-int FWI = 0; // Fire Weather Index
+// ============================= Global Variables =============================
+volatile int brightness = 0;   // Current LED brightness
+volatile int FWI = 0; // Fire Weather Index
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Serial.println("Advanced Fire Sensing and Mitigation System!");
+
+  // Initialize pins
+  pinMode(TEMP_LED, OUTPUT);
+  pinMode(HUMID_LED, OUTPUT);
 
   // Initialize I2C communication
   Wire.begin();
@@ -74,18 +79,12 @@ void Temp_Humid_Det(void *pvParameter) {
   float temp = am2320.readTemperature();
   float humid = am2320.readHumididy();
 
-  // Display temperature
-  lcd.setCursor(0, 0);
-  lcd.print("Temperature: ");
-  lcd.print(temp);
-  lcd.print(" C");
+  int brightnessTemp = map(temp, -40, 80, 0, 255);
+  int brightnessHumid = map(temp, 0, 100, 0, 255);
 
-  // Display humidity
-  lcd.setCursor(0, 1);
-  lcd.print("Humidity: ");
-  lcd.print(humid);
-  lcd.print(" %");
 
+  analogWrite(TEMP_LED, brightnessTemp);
+  analogWrite(HUMID_LED, brightnessHumid);
 }
 
 void loop() {}
