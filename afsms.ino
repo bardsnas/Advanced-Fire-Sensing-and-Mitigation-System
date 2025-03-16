@@ -8,19 +8,16 @@
 // Temperature and humidity sensor library and initialization
 #include <Adafruit_AM2320.h>
 
-// Detection LED pins
-#define TEMP_LED 36
-#define HUMID_LED 38
-#define RAIN_LED 5
-#define WIND_LED 4
+// Sensor input pins
+#define POT_PIN 6
+#define SDA 8
+#define SCL 9
 
 // Degree of seriousness LED pins
 #define NORMAL 15
 #define SEVERE 16
 #define CRITICAL 17
 #define EMERGENCY 18
-
-#define POT_PIN 6
 
 // I2C communcation: Initialize 16x2 LCD (I2C address: 0x27, 16 columns, 2 rows)
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -35,6 +32,11 @@ TaskHandle_t Wind_Handle = NULL;
 
 // FWI Calculation handle
 TaskHandle_t FWI_Calc_Handle = NULL;
+
+// Create queue handles
+QueueHandle_t Temp_Humid_Data;
+QueueHandle_t Rain_Data;
+QueueHandle_t Wind_Data;
 
 // Detection tasks prototypes
 void Temp_Humid_Det(void *pvParameter);
@@ -56,8 +58,6 @@ void setup() {
   Serial.println("Advanced Fire Sensing and Mitigation System!");
 
   // Initialize pins
-  pinMode(TEMP_LED, OUTPUT);
-  pinMode(HUMID_LED, OUTPUT);
   pinMode(POT_PIN, INPUT);
 
   // Initialize I2C communication
@@ -84,7 +84,6 @@ void Temp_Humid_Det(void *pvParameter) {
   while (1) {  // Infinite loop to keep the task running
     temp = am2320.readTemperature();
     humid = am2320.readHumidity();
-
     vTaskDelay(pdMS_TO_TICKS(500));  // Delay to prevent CPU overload
   }
 }
