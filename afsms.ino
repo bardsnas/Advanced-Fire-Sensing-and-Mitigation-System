@@ -16,10 +16,10 @@
 #define SCL 9
 
 // Degree of seriousness LED pins
-#define NORMAL 15
-#define MODERATE 16
-#define CRITICAL 17
-#define DANGEROUS 18
+#define NORMAL 1
+#define MODERATE 2
+#define CRITICAL 42
+#define DANGEROUS 41
 
 // I2C communcation: Initialize 16x2 LCD (I2C address: 0x27, 16 columns, 2 rows)
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -52,6 +52,11 @@ void setup() {
   pinMode(POT_DMC, INPUT);
   pinMode(POT_DC, INPUT);
   pinMode(POT_WIND, INPUT);
+
+  pinMode(NORMAL, OUTPUT);
+  pinMode(MODERATE, OUTPUT);
+  pinMode(CRITICAL, OUTPUT);
+  pinMode(DANGEROUS, OUTPUT);
 
   // Initialize I2C communication
   Wire.begin();
