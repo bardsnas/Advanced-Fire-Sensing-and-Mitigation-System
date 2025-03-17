@@ -82,12 +82,13 @@ void Data_Read(void *pvParameter) {
   int humid;
   int dmc;
   int dc;
-  int wind
+  int potWind;
+  int wind;
   while (1) {  // Infinite loop to keep the task running
     temp = am2320.readTemperature();
     humid = am2320.readHumidity();
-    dmc = analogRead(POT_DMC);
-    wind = (dmc / 4095.0) * 50.0;   // Scale value between 0-50 km/h
+    potWind = analogRead(POT_WIND);
+    wind = (potWind / 4095.0) * 50.0;   // Scale value between 0-50 km/h
     vTaskDelay(pdMS_TO_TICKS(500));  // Delay to prevent CPU overload
   }
 }
