@@ -9,8 +9,8 @@
 #include <Adafruit_AM2320.h>
 
 // ============================= Input Pins =============================
-#define POT_DMC 4
-#define POT_DC 5
+#define POT_DMC 14
+#define POT_DC 17
 #define POT_WIND 6
 #define SDA 8
 #define SCL 9
@@ -118,14 +118,15 @@ void FWI_Calc(void *pvParameter) {
   
   while (1) {
     if (xQueueReceive(dataQueue, receivedData, portMAX_DELAY) == pdTRUE) {
-      Serial.print("Wind: ");
-      Serial.println(receivedData[2], 2);
 
       Serial.print("Temp: ");
       Serial.println(receivedData[0], 2);
 
       Serial.print("Humidity: ");
       Serial.println(receivedData[1], 2);
+
+      Serial.print("Wind: ");
+      Serial.println(receivedData[2], 2); 
 
       Serial.print("Duff Moisture Code: ");
       Serial.println(receivedData[3], 2);
