@@ -1,5 +1,6 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/timers.h"
 
 // I2C communication libraries
 #include <Wire.h>
@@ -16,10 +17,10 @@
 #define SCL 9
 
 // Degree of seriousness LED pins
-#define LOW 15
+#define NORMAL 15
 #define MODERATE 16
-#define HIGH 17
-#define VERY_HIGH 18
+#define CRITICAL 17
+#define DANGEROUS 18
 
 // I2C communcation: Initialize 16x2 LCD (I2C address: 0x27, 16 columns, 2 rows)
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -27,23 +28,18 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 // Initialize AM2320 sensor
 Adafruit_AM2320 am2320 = Adafruit_AM2320();
 
-// Detection handles
+// Task handles
 TaskHandle_t Data_Read_Handle = NULL;
-
-// FWI Calculation handle
 TaskHandle_t FWI_Calc_Handle = NULL;
+TaskHandle_t LED_Timer_Handle = NULL;
 
 // Create queue handles
 QueueHandle_t dataQueue;
 
-// Detection task prototype
+// Task prototypes
 void Data_Read(void *pvParameter);
-
-// FWI Calculation task prototype
 void FWI_Calc(void *pvParameter);
-
-// Blinking LED task prototype
-void Blink_LED(void *pvParameter);
+void Blink_LED(TimerHandle_t);
 
 // ============================= Global Variables =============================
 volatile int FWI = 0; // Fire Weather Index
@@ -57,6 +53,17 @@ void setup() {
   pinMode(POT_DMC, INPUT);
   pinMode(POT_DC, INPUT);
   pinMode(POT_WIND, INPUT);
+
+  // Create a Software Timer
+  LED_Timer_Handle = xTimerCreate(
+    "LED Blinking",     // Timer name
+    pdMS_TO_TICKs(500), // 0.5 second interval
+    pdTRUE,             // TRUE means periodic, FALSE means one-time
+    NULL,               // NO ID is needed
+    Blink_LED           // The call back function defined
+  );
+
+  xTimerStart(ledTimer, 0); // This will start the timer
 
   // Initialize I2C communication
   Wire.begin();
@@ -103,35 +110,26 @@ void FWI_Calc(void *pvParameter) {
 
     Serial.print("Humidity: ");
     Serial.println(humid);
-    
-    vTaskDelay(pdMS_TO_TICKS(500));
+
     FWI += 1;
+    vTaskDelay(pdMS_TO_TICKS(500));
   }
 }
 
-void Blink_LED(void *pvParameter) {
+void Blink_LED(TimerHandle_t LED_Timer_Handle) {
   // Green 0-5 low
   // Blue 5-15 moderate
   // Yellow 15-30 high
   // Red 30+ very high
-  bool blink = true;
   while(1) {
     if (FWI < 6) {
-      digitalWrite(LOW, blink);
-      blink = !blink;
-      vTaskDelay(pdMS_TO_TICKS(50));
+      digitalWrite(NORMAL, !digitalRead(NORMAL));
     } else if (FWI < 16) {
-      digitalWrite(MODERATE, blink);
-      blink = !blink;
-      vTaskDelay(pdMS_TO_TICKS(50));
+      digitalWrite(MODERATE, !digitalRead(MODERATE));
     } else if (FWI < 31) {
-      digitalWrite(HIGH, blink);
-      blink = !blink;
-      vTaskDelay(pdMS_TO_TICKS(50));
+      digitalWrite(CRITICAL, !digitalRead(CRITICAL));
     } else {
-      digitalWrite(VERY_HIGH, blink);
-      blink = !blink;
-      vTaskDelay(pdMS_TO_TICKS(50));
+      digitalWrite(DANGEROUS, !digitalRead(DANGEROUS));
     }
   }
 }
