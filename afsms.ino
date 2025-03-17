@@ -121,6 +121,8 @@ void FWI_Calc(void *pvParameter) {
       Serial.println(receivedData[1], 2);
       
       FWI += 1;
+      Serial.println(FWI);
+
     }
     vTaskDelay(pdMS_TO_TICKS(500));
   }
