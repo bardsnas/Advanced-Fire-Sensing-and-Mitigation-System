@@ -8,14 +8,14 @@
 // Temperature and humidity sensor library and initialization
 #include <Adafruit_AM2320.h>
 
-// Sensor input pins
-#define POT_DMC 14
-#define POT_DC 17
+// ============================= Input Pins =============================
+#define POT_DMC 4
+#define POT_DC 5
 #define POT_WIND 6
 #define SDA 8
 #define SCL 9
 
-// Degree of seriousness LED pins
+// ============================= Output Pins =============================
 #define NORMAL 1
 #define MODERATE 2
 #define CRITICAL 42
@@ -27,15 +27,13 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 // Initialize AM2320 sensor
 Adafruit_AM2320 am2320 = Adafruit_AM2320();
 
-// Task handles
+// ============================= Handles =============================
 TaskHandle_t Data_Read_Handle = NULL;
 TaskHandle_t FWI_Calc_Handle = NULL;
 TimerHandle_t LED_Timer_Handle;
-
-// Create queue handles
 QueueHandle_t dataQueue;
 
-// Task prototypes
+// ============================= Prototypes =============================
 void Data_Read(void *pvParameter);
 void FWI_Calc(void *pvParameter);
 void Blink_LED(TimerHandle_t);
@@ -68,8 +66,8 @@ void setup() {
   // Start the sensor
   am2320.begin();
 
-  // data[0] = temp data[1] = humid   data[2] = wind  data[3] = dmc   data[4] = dc
-  dataQueue = xQueueCreate(5, sizeof(float) * 5);
+  // data[0] = temp data[1] = humid   data[2] = wind
+  dataQueue = xQueueCreate(5, sizeof(float) * 3);
 
   // Create tasks
   // TODO:...
@@ -98,16 +96,12 @@ void Data_Read(void *pvParameter) {
   int dc;
   int potWind;
   int wind;
-  float data[5];
+  float data[3];
   while (1) {  // Infinite loop to keep the task running
     data[0] = am2320.readTemperature();
     data[1] = am2320.readHumidity();
     potWind = analogRead(POT_WIND);
     data[2] = ((float)potWind / 4095.0) * 50.0;   // Scale value between 0-50 km/h
-    dmc = analogRead(POT_DMC);
-    data[3] = ((float)dmc / 4095.0) * 1000.0;
-    dc = analogRead(POT_DC);
-    data[4] = ((float)dc / 4095.0) * 800.0;
     
     xQueueSend(dataQueue, data, portMAX_DELAY);
     
@@ -116,7 +110,7 @@ void Data_Read(void *pvParameter) {
 }
 
 void FWI_Calc(void *pvParameter) {
-  float receivedData[5];
+  float receivedData[3];
   
   while (1) {
     if (xQueueReceive(dataQueue, receivedData, portMAX_DELAY) == pdTRUE) {
@@ -128,12 +122,6 @@ void FWI_Calc(void *pvParameter) {
 
       Serial.print("Humidity: ");
       Serial.println(receivedData[1], 2);
-
-      Serial.print("Duff Moisture Code: ");
-      Serial.println(receivedData[3], 2);
-
-      Serial.print("Drought Code: ");
-      Serial.println(receivedData[4], 2);
       
       FWI += 1;
       Serial.println(FWI);
