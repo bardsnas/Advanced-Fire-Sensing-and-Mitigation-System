@@ -1,7 +1,23 @@
 # Advanced-Fire-Sensing-and-Mitigation-System
 The Advanced Fire Sensing and Mitigation System (AFSMS) predicts fire risk and spread in dense urban areas using rain, wind, temperature, and humidity sensors. Inspired by forest fire monitoring systems like the Fire Weather Index (FWI), AFSMS enhances early detection and mitigation efforts to improve urban fire safety.
 
-# Reasons for implementation:  
+# Reciever MAC Address
+## 24:EC:4A:0E:BC:5C
+
+# Fire-Weather Index (FWI)
+## Fine Fuel Moisture Code (FFMC)
+$FFMC_{t} = \frac{59.5 * (250 - M)}{147.2 + M}$
+
+where:
+
+-   Moisture content: $M = \frac{147.2 * (101 - RH)}{59.5 + T}$
+
+-   $RH$ is relative humidity (%)
+
+-   $T$ is temperature (Celsius)
+
+-   If rain occurs, $FFMC$ is adjusted using an empirical formula.
+
 
 # FreeRTOS:
 ## Task Notifications:
@@ -21,22 +37,6 @@ The Advanced Fire Sensing and Mitigation System (AFSMS) predicts fire risk and s
 * CPU: Blocks task execution  
 * Precision: Less precise than Software Timer  
 * Best use: Complex tasks like sensor readings display and FWI calculations  
-
-# Fire-Weather Index (FWI)
-## Fine Fuel Moisture Code (FFMC)
-$FFMC_{t} = \frac{59.5 * (250 - M)}{147.2 + M}$
-
-where:
-
--   Moisture content: $M = \frac{147.2 * (101 - RH)}{59.5 + T}$
-
--   $RH$ is relative humidity (%)
-
--   $T$ is temperature (Celsius)
-
--   If rain occurs, $FFMC$ is adjusted using an empirical formula.
-
-
 
 
 
