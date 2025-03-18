@@ -39,7 +39,7 @@ void FWI_Calc(void *pvParameter);
 void Blink_LED(TimerHandle_t);
 
 // ============================= Global Variables =============================
-volatile int FWI = 0; // Fire Weather Index
+volatile float FWI = 0; // Fire Weather Index
 
 void setup() {
   // put your setup code here, to run once:
@@ -115,9 +115,18 @@ void Data_Read(void *pvParameter) {
 
 void FWI_Calc(void *pvParameter) {
   float receivedData[5];
+  float m;
+  float FFMC;
+  float ISI;
+  float BUI;
   
   while (1) {
     if (xQueueReceive(dataQueue, receivedData, portMAX_DELAY) == pdTRUE) {
+      m = 147.2 * (101 - receivedData[1]) / (59.5 + receivedData[0]);
+      FFMC = 59.5 * (250 - m) / (147.2 + m);
+      ISI = 0.208 * receivedData[2] * exp(0.05039 * FFMC);
+      BUI = (0.8 * receivedData[3] * receivedData[4]) / (receivedData[3] + 0.4 * receivedData[4]);
+      FWI = exp(BUI / 50.0) * ISI;
 
       Serial.print("Temp: ");
       Serial.println(receivedData[0], 2);
@@ -133,6 +142,9 @@ void FWI_Calc(void *pvParameter) {
 
       Serial.print("Drought Code: ");
       Serial.println(receivedData[4], 2);
+
+      Serial.print("FWI: ");
+      Serial.println(FWI, 2);
 
     }
     vTaskDelay(pdMS_TO_TICKS(500));
