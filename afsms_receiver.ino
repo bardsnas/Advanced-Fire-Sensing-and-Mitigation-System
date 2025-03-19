@@ -26,10 +26,6 @@ void IRAM_ATTR dataReceived(const esp_now_recv_info_t * esp_now_info, const uint
     memcpy(messageData, incomingData, messageLength);
 }
 
-
-// =========> TODO: Write your timer ISR here.
-
-
 void setup() {
     WiFi.mode(WIFI_STA);
     // Initialize LCD display
@@ -47,6 +43,7 @@ void setup() {
 void loop() {
     // If a signal has been received over ESP-NOW, print out an alert message on the LCD
     if (messageReceived) {
+
         lcd.clear(); // Remove screen contents.
         lcd.setCursor(0, 0);
         lcd.print("Motion detected:");
@@ -57,9 +54,11 @@ void loop() {
         for (int i = 0; i < messageLength; i++) {
             lcd.print(messageData[i], DEC);
         }
+        messageReceived = false;
     } else {
         lcd.setCursor(0, 0);
-        lcd.print("FWI is below");
+        lcd.print("FWI is below ");
+        lcd.setCursor(0, 1);
         lcd.print("dangerous level.");
     }
 }
