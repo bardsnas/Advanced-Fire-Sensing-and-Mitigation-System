@@ -1,0 +1,93 @@
+\doxysection{afsms.\+h}
+\hypertarget{afsms_8h_source}{}\label{afsms_8h_source}\mbox{\hyperlink{afsms_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#ifndef\ AFSMS\_H}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ AFSMS\_H}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}freertos/FreeRTOS.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}freertos/task.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}freertos/timers.h"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}freertos/queue.h"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <Wire.h>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <LiquidCrystal\_I2C.h>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <esp\_now.h>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <WiFi.h>}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ <Adafruit\_AM2320.h>}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00026\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ =============================\ Input\ Pins\ =============================}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ POT\_DMC\ 14}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ POT\_DC\ 17}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ POT\_WIND\ 6}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ SDA\ 8}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ SCL\ 9}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ PIR\_PIN\ 7}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ =============================\ Output\ Pins\ (LEDs)\ =============================}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ NORMAL\ 1}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ MODERATE\ 2}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ CRITICAL\ 42}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ DANGEROUS\ 41}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{comment}{//\ =============================\ External\ Devices\ =============================}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00068\ \textcolor{keyword}{extern}\ LiquidCrystal\_I2C\ \mbox{\hyperlink{afsms_8h_a0b3886fc5d22cd9c3db5f0da7b01a2ce}{lcd}};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{extern}\ Adafruit\_AM2320\ \mbox{\hyperlink{afsms_8c_a93636425e7d0c05ca23f2348d9f5b591}{am2320}};}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{comment}{//\ =============================\ Task\ Handles\ =============================}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00078\ \textcolor{keyword}{extern}\ TaskHandle\_t\ \mbox{\hyperlink{afsms_8c_a3dd70313eb2a86d0018a68215fb11de7}{Data\_Read\_Handle}};}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{extern}\ TaskHandle\_t\ \mbox{\hyperlink{afsms_8c_a36672de5f37d2d6b7f0dda54a975e830}{FWI\_Calc\_Handle}};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00084\ \textcolor{keyword}{extern}\ TaskHandle\_t\ \mbox{\hyperlink{afsms_8c_a36bfaf70724dd0c1ab478661d2cb86c5}{Motion\_Sensor\_Handle}};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00087\ \textcolor{keyword}{extern}\ TimerHandle\_t\ \mbox{\hyperlink{afsms_8c_a8469e4f533be3a14c8f95e4bc23eab19}{LED\_Timer\_Handle}};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00090\ \textcolor{keyword}{extern}\ QueueHandle\_t\ \mbox{\hyperlink{afsms_8c_a2820736c7f6f9a3082102f0acd2cbac1}{dataQueue}};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00093\ \textcolor{keyword}{extern}\ QueueHandle\_t\ \mbox{\hyperlink{afsms_8c_a122d0545a506aeb22610d866d904955f}{FWIQueue}};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \textcolor{comment}{//\ =============================\ Global\ Variables\ =============================}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00098\ \textcolor{keyword}{extern}\ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{afsms_8c_a490df00b31e9e8da97ed378f3ce98256}{motionDetected}};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00101\ \textcolor{keyword}{extern}\ uint8\_t\ \mbox{\hyperlink{afsms_8c_a3725ad8cc4ac1b5881384ccd184fa249}{broadcastAddress}}[];}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{comment}{//\ =============================\ Function\ Declarations\ =============================}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00109\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{afsms_8h_a69572928bb60bbcb3bbd19bec17d3294}{Data\_Read}}(\textcolor{keywordtype}{void}\ *pvParameter);}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00115\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{afsms_8h_ae7ac194b38db4d3082517710695a5385}{FWI\_Calc}}(\textcolor{keywordtype}{void}\ *pvParameter);}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00121\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{afsms_8h_a3f877a20f4c32e78462ac030a8f372ee}{Motion\_Sensor}}(\textcolor{keywordtype}{void}\ *pvParameter);}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00127\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{afsms_8h_a6590c1fe0f12bd202107c9839b53fd14}{Blink\_LED}}(TimerHandle\_t\ \mbox{\hyperlink{afsms_8c_a8469e4f533be3a14c8f95e4bc23eab19}{LED\_Timer\_Handle}});}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00132\ \textcolor{keywordtype}{void}\ IRAM\_ATTR\ \mbox{\hyperlink{afsms_8h_a18c8a5344717eb69e849b06fcccc1a70}{timerInterrupt}}();}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00139\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{afsms_8h_a1ec6b84c5d1247e1390758d6df12d0dc}{OnDataSent}}(\textcolor{keyword}{const}\ uint8\_t\ *mac\_addr,\ esp\_now\_send\_status\_t\ status);}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00142\ \}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ AFSMS\_H}}
+
+\end{DoxyCode}
