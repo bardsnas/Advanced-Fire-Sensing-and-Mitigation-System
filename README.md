@@ -8,6 +8,12 @@ The Advanced Fire Sensing and Mitigation System (AFSMS) predicts fire risk and s
 
 * **Problem-Solving and Innovation:** Enhance problem-solving abilities by addressing real-world challenges or creating innovative entertainment solutions through the application of embedded systems technologies.
 
+* The project incorporates tasks that demonstrates proficiency in mangaging time, digital I/O operations, and CPU load optimization.
+
+* Duration: 2 weeks
+
+* Independent and self-guided; No step-by-step lab/final project manual was provided.
+
 # Reciever MAC Address
 ## 24:EC:4A:0E:BC:5C
 
