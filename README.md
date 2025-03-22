@@ -2,11 +2,11 @@
 The Advanced Fire Sensing and Mitigation System (AFSMS) predicts fire risk and spread in dense urban areas using rain, wind, temperature, and humidity sensors. Inspired by forest fire monitoring systems like the Fire Weather Index (FWI), AFSMS enhances early detection and mitigation efforts to improve urban fire safety.
 
 # Learning Outcomes
-*** Apply Embedded System Design Principles:** Demonstrate the ability to design and implement a comprehensive embedded system that meets specific project requirements, leveraging hardware and software integration.
+* ** Apply Embedded System Design Principles:** Demonstrate the ability to design and implement a comprehensive embedded system that meets specific project requirements, leveraging hardware and software integration.
 
-*** Optimize System Performance:** Develop skills in optimizing system performance through effective task management, parallel processing, and real-time scheduling using FreeRTOS on the ESP32 platform.
+* ** Optimize System Performance:** Develop skills in optimizing system performance through effective task management, parallel processing, and real-time scheduling using FreeRTOS on the ESP32 platform.
 
-*** Problem-Solving and Innovation:** Enhance problem-solving abilities by addressing real-world challenges or creating innovative entertainment solutions through the application of embedded systems technologies.
+* ** Problem-Solving and Innovation:** Enhance problem-solving abilities by addressing real-world challenges or creating innovative entertainment solutions through the application of embedded systems technologies.
 
 # Reciever MAC Address
 ## 24:EC:4A:0E:BC:5C
