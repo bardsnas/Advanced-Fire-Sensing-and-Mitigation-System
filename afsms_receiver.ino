@@ -1,3 +1,15 @@
+/*
+Filename: FinalProject_afsms_receiver.ino
+Authors: Ken Do & Bardia Nasrulai
+Date: 03/22/2025
+Description:  This file receives motion dectection messages with the Fire Weather
+              Index (FWI) via ESP-NOW from the sensor side. It displays the FWI
+              value along with an interrupt-driven tiemr that tracks elapsed time.
+              When a messgae is reveived, it shows a "Motion dectectd" alert and
+              resets the timer. If no message is received, it displays the current
+              time.
+*/
+
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include <esp_now.h>
