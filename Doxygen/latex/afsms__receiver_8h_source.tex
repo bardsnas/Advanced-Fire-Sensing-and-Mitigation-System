@@ -1,0 +1,54 @@
+\doxysection{afsms\+\_\+receiver.\+h}
+\hypertarget{afsms__receiver_8h_source}{}\label{afsms__receiver_8h_source}\mbox{\hyperlink{afsms__receiver_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\ \#ifndef\ AFSMS\_RECEIVER\_H}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\ \#define\ AFSMS\_RECEIVER\_H}}
+\DoxyCodeLine{00014\ \ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\ \#include\ <Arduino.h>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\ \#include\ <Wire.h>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\ \#include\ <LiquidCrystal\_I2C.h>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\ \#include\ <esp\_now.h>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\ \#include\ <WiFi.h>}}
+\DoxyCodeLine{00020\ \ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\ \#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00022\ \ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\ \#endif}}
+\DoxyCodeLine{00024\ \ }
+\DoxyCodeLine{00025\ \ \textcolor{comment}{//\ =============================\ Global\ Variables\ =============================}}
+\DoxyCodeLine{00026\ \ }
+\DoxyCodeLine{00030\ \ \textcolor{keyword}{extern}\ LiquidCrystal\_I2C\ \mbox{\hyperlink{afsms_8h_a0b3886fc5d22cd9c3db5f0da7b01a2ce}{lcd}};}
+\DoxyCodeLine{00031\ \ }
+\DoxyCodeLine{00035\ \ \textcolor{keyword}{extern}\ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{afsms__receiver_8c_a4104b8398aa70b4a66ccaeff20323b78}{messageReceived}};}
+\DoxyCodeLine{00036\ \ }
+\DoxyCodeLine{00040\ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{afsms__receiver_8c_a6cf35be1947a62f134392fcb1b3c54d2}{second}};}
+\DoxyCodeLine{00041\ \ }
+\DoxyCodeLine{00045\ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{afsms__receiver_8c_a5edffad982a0566ad01d95005474eae3}{minute}};}
+\DoxyCodeLine{00046\ \ }
+\DoxyCodeLine{00050\ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{afsms__receiver_8c_a15df9ba285cfd842f284025f904edc9c}{hour}};}
+\DoxyCodeLine{00051\ \ }
+\DoxyCodeLine{00055\ \ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{afsms__receiver_8c_af487fc530cbeeb9acc36e4fd7521e6ed}{messageLength}};}
+\DoxyCodeLine{00056\ \ }
+\DoxyCodeLine{00060\ \ \textcolor{keyword}{extern}\ uint8\_t\ \mbox{\hyperlink{afsms__receiver_8c_a834d6355e7ce1d5aa91f59a63e9cf2f2}{messageData}}[16];}
+\DoxyCodeLine{00061\ \ }
+\DoxyCodeLine{00065\ \ \textcolor{keyword}{extern}\ hw\_timer\_t\ *\ \mbox{\hyperlink{afsms__receiver_8c_a97222eeccb5b18e1fc532806c1efcb34}{timer}};}
+\DoxyCodeLine{00066\ \ }
+\DoxyCodeLine{00067\ \ \textcolor{comment}{//\ =============================\ Function\ Declarations\ =============================}}
+\DoxyCodeLine{00068\ \ }
+\DoxyCodeLine{00078\ \ \textcolor{keywordtype}{void}\ IRAM\_ATTR\ \mbox{\hyperlink{afsms__receiver_8h_a9550b9b8e9e8a87d8cf555007b9ee95a}{dataReceived}}(\textcolor{keyword}{const}\ esp\_now\_recv\_info\_t\ *\ esp\_now\_info,\ \textcolor{keyword}{const}\ uint8\_t\ *incomingData,\ \textcolor{keywordtype}{int}\ len);}
+\DoxyCodeLine{00079\ \ }
+\DoxyCodeLine{00083\ \ \textcolor{keywordtype}{void}\ IRAM\_ATTR\ \mbox{\hyperlink{afsms__receiver_8h_a34f25ac42d32ac64ac88666235c27f37}{timerISR}}();}
+\DoxyCodeLine{00084\ \ }
+\DoxyCodeLine{00088\ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{afsms__receiver_8h_a4fc01d736fe50cf5b977f755b675f11d}{setup}}();}
+\DoxyCodeLine{00089\ \ }
+\DoxyCodeLine{00093\ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{afsms__receiver_8h_afe461d27b9c48d5921c00d521181f12f}{loop}}();}
+\DoxyCodeLine{00094\ \ }
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\ \#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00096\ \ \}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\ \#endif}}
+\DoxyCodeLine{00098\ \ }
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\ \#endif\ }\textcolor{comment}{//\ AFSMS\_RECEIVER\_H}}
+\DoxyCodeLine{00100\ \ }
+
+\end{DoxyCode}

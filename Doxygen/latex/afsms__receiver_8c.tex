@@ -1,0 +1,169 @@
+\doxysection{afsms\+\_\+receiver.\+c File Reference}
+\hypertarget{afsms__receiver_8c}{}\label{afsms__receiver_8c}\index{afsms\_receiver.c@{afsms\_receiver.c}}
+
+
+Implementation of the Fire Warning Display System using ESP-\/\+NOW and LCD.  
+
+
+{\ttfamily \#include "{}receiver\+\_\+display.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{afsms__receiver_8c_ae084e1bc8ccb35ea289ba0ca4972ea6d}\label{afsms__receiver_8c_ae084e1bc8ccb35ea289ba0ca4972ea6d} 
+Liquid\+Crystal\+\_\+\+I2C {\bfseries lcd} (0x27, 16, 2)
+\begin{DoxyCompactList}\small\item\em I2C LCD display. \end{DoxyCompactList}\item 
+void IRAM\+\_\+\+ATTR \mbox{\hyperlink{afsms__receiver_8c_a9550b9b8e9e8a87d8cf555007b9ee95a}{data\+Received}} (const esp\+\_\+now\+\_\+recv\+\_\+info\+\_\+t \texorpdfstring{$\ast$}{*}esp\+\_\+now\+\_\+info, const uint8\+\_\+t \texorpdfstring{$\ast$}{*}incoming\+Data, int len)
+\begin{DoxyCompactList}\small\item\em ESP-\/\+NOW callback for receiving data. Copies up to 16 bytes into message\+Data buffer and sets message\+Received flag. \end{DoxyCompactList}\item 
+void IRAM\+\_\+\+ATTR \mbox{\hyperlink{afsms__receiver_8c_a34f25ac42d32ac64ac88666235c27f37}{timer\+ISR}} ()
+\begin{DoxyCompactList}\small\item\em ISR triggered every second by the hardware timer. Updates software-\/based hours, minutes, and seconds. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{afsms__receiver_8c_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\begin{DoxyCompactList}\small\item\em Initializes LCD, Wi\+Fi, ESP-\/\+NOW, hardware timer, and interrupt handlers. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{afsms__receiver_8c_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\begin{DoxyCompactList}\small\item\em Displays either a received ESP-\/\+NOW message or the current time on the LCD. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+volatile bool \mbox{\hyperlink{afsms__receiver_8c_a4104b8398aa70b4a66ccaeff20323b78}{message\+Received}} = false
+\begin{DoxyCompactList}\small\item\em Flag for ESP-\/\+NOW message reception. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{afsms__receiver_8c_a6cf35be1947a62f134392fcb1b3c54d2}{second}} = 0
+\begin{DoxyCompactList}\small\item\em Seconds counter. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{afsms__receiver_8c_a5edffad982a0566ad01d95005474eae3}{minute}} = 0
+\begin{DoxyCompactList}\small\item\em Minutes counter. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{afsms__receiver_8c_a15df9ba285cfd842f284025f904edc9c}{hour}} = 0
+\begin{DoxyCompactList}\small\item\em Hours counter. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{afsms__receiver_8c_af487fc530cbeeb9acc36e4fd7521e6ed}{message\+Length}} = 0
+\begin{DoxyCompactList}\small\item\em Length of received message. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{afsms__receiver_8c_a834d6355e7ce1d5aa91f59a63e9cf2f2}{message\+Data}} \mbox{[}16\mbox{]}
+\begin{DoxyCompactList}\small\item\em Buffer for received message. \end{DoxyCompactList}\item 
+hw\+\_\+timer\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{afsms__receiver_8c_a97222eeccb5b18e1fc532806c1efcb34}{timer}} = NULL
+\begin{DoxyCompactList}\small\item\em Hardware timer pointer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of the Fire Warning Display System using ESP-\/\+NOW and LCD. 
+
+Receives motion alerts via ESP-\/\+NOW and displays them on an LCD. Also shows a real-\/time timer using a hardware interrupt.
+
+\begin{DoxyAuthor}{Author}
+Bardia Nasrulai and Ken Do 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+3/20/2025 
+\end{DoxyDate}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{afsms__receiver_8c_a9550b9b8e9e8a87d8cf555007b9ee95a}\index{afsms\_receiver.c@{afsms\_receiver.c}!dataReceived@{dataReceived}}
+\index{dataReceived@{dataReceived}!afsms\_receiver.c@{afsms\_receiver.c}}
+\doxysubsubsection{\texorpdfstring{dataReceived()}{dataReceived()}}
+{\footnotesize\ttfamily \label{afsms__receiver_8c_a9550b9b8e9e8a87d8cf555007b9ee95a} 
+void IRAM\+\_\+\+ATTR data\+Received (\begin{DoxyParamCaption}\item[{const esp\+\_\+now\+\_\+recv\+\_\+info\+\_\+t \texorpdfstring{$\ast$}{*}}]{esp\+\_\+now\+\_\+info}{, }\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{incoming\+Data}{, }\item[{int}]{len}{}\end{DoxyParamCaption})}
+
+
+
+ESP-\/\+NOW callback for receiving data. Copies up to 16 bytes into message\+Data buffer and sets message\+Received flag. 
+
+Callback triggered when data is received via ESP-\/\+NOW. \Hypertarget{afsms__receiver_8c_afe461d27b9c48d5921c00d521181f12f}\index{afsms\_receiver.c@{afsms\_receiver.c}!loop@{loop}}
+\index{loop@{loop}!afsms\_receiver.c@{afsms\_receiver.c}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily \label{afsms__receiver_8c_afe461d27b9c48d5921c00d521181f12f} 
+void loop (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Displays either a received ESP-\/\+NOW message or the current time on the LCD. 
+
+Arduino main loop function. Displays either message or current time. \Hypertarget{afsms__receiver_8c_a4fc01d736fe50cf5b977f755b675f11d}\index{afsms\_receiver.c@{afsms\_receiver.c}!setup@{setup}}
+\index{setup@{setup}!afsms\_receiver.c@{afsms\_receiver.c}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily \label{afsms__receiver_8c_a4fc01d736fe50cf5b977f755b675f11d} 
+void setup (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Initializes LCD, Wi\+Fi, ESP-\/\+NOW, hardware timer, and interrupt handlers. 
+
+Arduino setup function. Initializes LCD, ESP-\/\+NOW, and hardware timer. \Hypertarget{afsms__receiver_8c_a34f25ac42d32ac64ac88666235c27f37}\index{afsms\_receiver.c@{afsms\_receiver.c}!timerISR@{timerISR}}
+\index{timerISR@{timerISR}!afsms\_receiver.c@{afsms\_receiver.c}}
+\doxysubsubsection{\texorpdfstring{timerISR()}{timerISR()}}
+{\footnotesize\ttfamily \label{afsms__receiver_8c_a34f25ac42d32ac64ac88666235c27f37} 
+void IRAM\+\_\+\+ATTR timer\+ISR (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+ISR triggered every second by the hardware timer. Updates software-\/based hours, minutes, and seconds. 
+
+Timer ISR that increments time counters every second. 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{afsms__receiver_8c_a15df9ba285cfd842f284025f904edc9c}\index{afsms\_receiver.c@{afsms\_receiver.c}!hour@{hour}}
+\index{hour@{hour}!afsms\_receiver.c@{afsms\_receiver.c}}
+\doxysubsubsection{\texorpdfstring{hour}{hour}}
+{\footnotesize\ttfamily \label{afsms__receiver_8c_a15df9ba285cfd842f284025f904edc9c} 
+int hour = 0}
+
+
+
+Hours counter. 
+
+Hour counter for timer display. \Hypertarget{afsms__receiver_8c_a834d6355e7ce1d5aa91f59a63e9cf2f2}\index{afsms\_receiver.c@{afsms\_receiver.c}!messageData@{messageData}}
+\index{messageData@{messageData}!afsms\_receiver.c@{afsms\_receiver.c}}
+\doxysubsubsection{\texorpdfstring{messageData}{messageData}}
+{\footnotesize\ttfamily \label{afsms__receiver_8c_a834d6355e7ce1d5aa91f59a63e9cf2f2} 
+uint8\+\_\+t message\+Data\mbox{[}16\mbox{]}}
+
+
+
+Buffer for received message. 
+
+Buffer to store received ESP-\/\+NOW message data (max 16 bytes). \Hypertarget{afsms__receiver_8c_af487fc530cbeeb9acc36e4fd7521e6ed}\index{afsms\_receiver.c@{afsms\_receiver.c}!messageLength@{messageLength}}
+\index{messageLength@{messageLength}!afsms\_receiver.c@{afsms\_receiver.c}}
+\doxysubsubsection{\texorpdfstring{messageLength}{messageLength}}
+{\footnotesize\ttfamily \label{afsms__receiver_8c_af487fc530cbeeb9acc36e4fd7521e6ed} 
+int message\+Length = 0}
+
+
+
+Length of received message. 
+
+Number of bytes in the received message. \Hypertarget{afsms__receiver_8c_a4104b8398aa70b4a66ccaeff20323b78}\index{afsms\_receiver.c@{afsms\_receiver.c}!messageReceived@{messageReceived}}
+\index{messageReceived@{messageReceived}!afsms\_receiver.c@{afsms\_receiver.c}}
+\doxysubsubsection{\texorpdfstring{messageReceived}{messageReceived}}
+{\footnotesize\ttfamily \label{afsms__receiver_8c_a4104b8398aa70b4a66ccaeff20323b78} 
+volatile bool message\+Received = false}
+
+
+
+Flag for ESP-\/\+NOW message reception. 
+
+Indicates if a message has been received via ESP-\/\+NOW. \Hypertarget{afsms__receiver_8c_a5edffad982a0566ad01d95005474eae3}\index{afsms\_receiver.c@{afsms\_receiver.c}!minute@{minute}}
+\index{minute@{minute}!afsms\_receiver.c@{afsms\_receiver.c}}
+\doxysubsubsection{\texorpdfstring{minute}{minute}}
+{\footnotesize\ttfamily \label{afsms__receiver_8c_a5edffad982a0566ad01d95005474eae3} 
+int minute = 0}
+
+
+
+Minutes counter. 
+
+Minute counter for timer display. \Hypertarget{afsms__receiver_8c_a6cf35be1947a62f134392fcb1b3c54d2}\index{afsms\_receiver.c@{afsms\_receiver.c}!second@{second}}
+\index{second@{second}!afsms\_receiver.c@{afsms\_receiver.c}}
+\doxysubsubsection{\texorpdfstring{second}{second}}
+{\footnotesize\ttfamily \label{afsms__receiver_8c_a6cf35be1947a62f134392fcb1b3c54d2} 
+int second = 0}
+
+
+
+Seconds counter. 
+
+Second counter for timer display. \Hypertarget{afsms__receiver_8c_a97222eeccb5b18e1fc532806c1efcb34}\index{afsms\_receiver.c@{afsms\_receiver.c}!timer@{timer}}
+\index{timer@{timer}!afsms\_receiver.c@{afsms\_receiver.c}}
+\doxysubsubsection{\texorpdfstring{timer}{timer}}
+{\footnotesize\ttfamily \label{afsms__receiver_8c_a97222eeccb5b18e1fc532806c1efcb34} 
+hw\+\_\+timer\+\_\+t\texorpdfstring{$\ast$}{*} timer = NULL}
+
+
+
+Hardware timer pointer. 
+
+Hardware timer used for timekeeping. 
